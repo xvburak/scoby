@@ -5,31 +5,26 @@
     <title>Scroll</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="shortcut icon" type="image/png" href="images/favicon.png">
     <link href="css/home.css" rel="stylesheet">
-    <!-- twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Scoby">
-    <meta name="twitter:description" content="Create pages with Are.na">
-    <meta name="twitter:image" content="https://scoby.page/images/social.jpg">
+
 </head>
     
 <body>
     <main id="home">
         <div id="welcome">
-            <h1>Are.na Scroll</h1>
-            <div id="about">
-                <p>A page creator built on <a href="https://are.na">Are.na</a>. Connect a channel to the <a href="https://www.are.na/elliott-cost/scoby">mother channel</a> to create a Scoby. Style your Scoby by adding a block titled "stylesheet" with some CSS to your channel. Watch a <a href="http://video.elliott.computer/scoby-tutorial.mp4">short tutorial</a>.</p>
+            <h1>are.na channel scroll</h1>
+            <div class="bio">
+                <p>scroll and read through are.na channels as you would fly through a book. you never know where your next nodal point awaits you.</p>
             </div>
         </div>
+        <div id="channelForm">
+            <input type="text" id="urlInput" placeholder="channel link goes here :)">
+            <button onclick="extractSlugAndRedirect()">view</button>
+        </div>
+    
     </main>
 
-    <div id="scobies">
-        <!-- Add an input field for the full URL -->
-        <input type="text" id="urlInput" placeholder="Enter a URL">
-        <button onclick="extractSlugAndRedirect()">Generate Scoby</button>
-    </div>
-
+  
     <script>
         function extractSlugAndRedirect() {
             // Get the full URL from the input field
