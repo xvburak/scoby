@@ -77,15 +77,22 @@
                             <h5>on ${item.created_at.substring(0,10)}</h5>
                         </div>`;
                     } else if (item.class == 'Attachment') {
-                        if (item.attachment.content_type == 'video/mp4') {
-                            div.classList.add("video");
-                            div.innerHTML = `
-                                    <video controls>
-                                        <source src="${item.attachment.url}" type="video/mp4">
-                                    </video>
-                                `;
-                        }
-                    }
+                        div.classList.add("attachment");
+                        div.innerHTML = `
+                        <div class="research-item">
+                            <img src="${item.image.display.url}">
+                            <h5>added by ${item.user.username}</h5>
+                            <h5>on ${item.created_at.substring(0,10)}</h5>
+                        </div>`;
+                    } else if (item.class == 'Media') {
+                        div.classList.add("media");
+                        div.innerHTML = `
+                        <div class="research-item">
+                            <img src="${item.image.display.url}">
+                            <h5>added by ${item.user.username}</h5>
+                            <h5>on ${item.created_at.substring(0,10)}</h5>
+                        </div>`;
+                    } 
 
                     if (item.title == 'stylesheet') {
                         var css = item.content,
