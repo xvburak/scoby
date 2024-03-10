@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Real-time Are.na Channel Search</title>
+<style>
+  #results {
+    margin-top: 20px;
+  }
+
+  .closed {
+    color: blue;
+  }
+
+  .public {
+    color: green;
+  }
+
+  .private {
+    color: red;
+  }
+  
+</style>
+</head>
+<body>
+
+<input type="text" id="searchQuery" onkeyup="searchAreNa()" placeholder="Search channels...">
+<div id="results"></div>
+
+<script>
+    function searchAreNa() {
+      var query = document.getElementById('searchQuery').value;
+      if (query.length < 3) { // Minimal query length to reduce load, adjust as needed
+        document.getElementById('results').innerHTML = '';
+        return;
+      }
+      var apiUrl = `https://api.are.na/v2/search/channels?q=${encodeURIComponent(query)}`;
+    
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          var resultsContainer = document.getElementById('results');
+          resultsContainer.innerHTML = ''; // Clear previous results
+    
+          data.channels.forEach(channel => {
+            var div = document.createElement('div');
+            div.textContent = `${channel.title} / ${channel.user.full_name}`;
+            div.className = channel.status; // Use channel.status as class for the div
+            resultsContainer.appendChild(div);
+          });
+        })
+        .catch(error => console.error('Error:', error));
+    }
+    </script>
+    
+
+</body>
+</html>

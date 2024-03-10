@@ -1,14 +1,12 @@
 <!DOCTYPE html>
-<html>
 <head>
     <meta charset="utf-8">
     <title>Scroll</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link href="css/home.css" rel="stylesheet">
-
 </head>
-    
+
 <body>
     <main id="home">
         <div id="welcome">
@@ -17,28 +15,55 @@
                 <p>scroll and read through are.na channels as you would fly through a book. you never know where your next <a target="_blank" href="https://www.are.na/blog/on-motivation">nodal point</a> awaits you.</p>
             </div>
         </div>
-        <div id="channelForm">
-            <input type="text" id="urlInput" placeholder="channel link goes here :)">
-            <button onclick="extractSlugAndRedirect()">view</button>
-        </div>
-    
+
+        <input type="text" id="searchQuery" onkeyup="searchAreNa()" placeholder="search channels :)">
+        <div id="results"></div>
     </main>
 
-  
     <script>
-        function extractSlugAndRedirect() {
-            // Get the full URL from the input field
-            var fullUrl = document.getElementById('urlInput').value;
-
-            // Split the URL by '/' and get the last part (slug)
-            var parts = fullUrl.split('/');
-            var slug = parts[parts.length - 1];
-
-            // Check if the slug is not empty
-            if (slug.trim() !== '') {
-                // Redirect to the Scoby page for the extracted slug
-                window.location.href = '/' + slug;
+        function showSearchResults(results) {
+            const resultsDiv = document.getElementById('results');
+            if (results.length > 0) {
+                resultsDiv.style.display = 'block'; // Show the results div with styling
+            } else {
+                // If no results, display a message instead of hiding the div
+                resultsDiv.style.display = 'block'; // Keep the div visible
+                resultsDiv.innerHTML = `<div class="nothing">nothing &lt;/3 </div>`;
             }
+        }
+    
+        function searchAreNa() {
+            var query = document.getElementById('searchQuery').value;
+            if (query.length < 3) { 
+                document.getElementById('results').innerHTML = ''; // Clear previous message
+                document.getElementById('results').style.display = 'none'; // Hide if query is too short
+                return;
+            }
+            var apiUrl = `https://api.are.na/v2/search/channels?q=${encodeURIComponent(query)}`;
+    
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    var resultsContainer = document.getElementById('results');
+                    resultsContainer.innerHTML = ''; // Clear previous results
+    
+                    if(data.channels && data.channels.length > 0) {
+                        data.channels.forEach(channel => {
+                            var div = document.createElement('div');
+                            div.classList.add("result-item");
+                            div.innerHTML = `<a href="/${channel.slug}" class="meta-title"><span class="${channel.status}"> ${channel.title} </span> / ${channel.user.full_name}</a>`;
+                            resultsContainer.appendChild(div);
+                        });
+                        showSearchResults(data.channels); // Call to show results with proper styling
+                    } else {
+                        showSearchResults([]); // Now shows "Nothing found" message
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('results').innerHTML = '<p>There was an error processing your search.</p>';
+                    document.getElementById('results').style.display = 'block';
+                });
         }
     </script>
 </body>
