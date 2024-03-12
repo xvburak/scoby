@@ -228,13 +228,22 @@
   border-top-left-radius: var(--radius);
 }
 
-.attachment .item-content, .link .item-content, .media .item-content {
+.attachment .item-content, .media .item-content {
   display: flex;
   aspect-ratio: 3/2;
   justify-content: center;
   background-color: var(--color-offset);
   position: relative;
 }
+
+.link .item-content {
+  display: flex;
+  aspect-ratio: 1/1;
+  justify-content: center;
+  background-color: var(--color-offset);
+  position: relative;
+}
+
 
 .item-content a.extension {
   display: none;
