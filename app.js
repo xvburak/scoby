@@ -5,27 +5,11 @@ const router = express.Router();
 app.use(bodyParser.json());
 const path = require('path');
 const Arena = require('are.na');
-let arena = new Arena();
+let arena = new Arena({ accessToken: "-G7KljigPc-Zo1G1Muh490rQNTw8MHHciUdjyTnbnvc" });
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.get('/api/sites', function(req, res){
-  arena.channel('scoby').get({ page: req.query.page ? req.query.page : 1, per: 64,
-    direction: 'desc',
-    sort: 'position'
-   })
-  .then(chan => {
-      res.send(chan);
-  })
-  .catch(err => console.log(err));
-})
-
 app.get('/api/:site', function(req, res){
-  // add search params for page, eg /api/scoby?page=2
-  // ------------------------------------------------
-  // its an art to find the perfect balance between
-  // amount of blocks to return per request and the
-  // actual amount of requests needed to load content
   arena.channel(req.params.site).contents({ page: req.query.page ? req.query.page : 1, 
     per: req.query.per ? req.query.per : 24,
     direction: 'desc',

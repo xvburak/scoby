@@ -34,7 +34,7 @@
     
         function searchAreNa() {
             var query = document.getElementById('searchQuery').value;
-            if (query.length < 3) { 
+            if (query.length < 1) { 
                 document.getElementById('results').innerHTML = ''; // Clear previous message
                 document.getElementById('results').style.display = 'none'; // Hide if query is too short
                 return;
